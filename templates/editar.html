@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Inscrito - Seminarios UPEA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function showStep(step) {
+            var steps = document.getElementsByClassName('step');
+            for (var i = 0; i < steps.length; i++) {
+                steps[i].style.display = 'none';
+            }
+            document.getElementById('step' + step).style.display = 'block';
+        }
+
+        function nextStep(currentStep) {
+            showStep(currentStep + 1);
+        }
+
+        function prevStep(currentStep) {
+            showStep(currentStep - 1);
+        }
+
+        window.onload = function() {
+            showStep(1); 
+        };
+    </script>
+</head>
+<body>
+    <h1>Editar Inscritos - Seminarios</h1>
+    <div class="container">       
+        <form action="{{ url_for('editar', id=inscrito.id) }}" method="POST">
+            
+            <div id="step1" class="step">
+                <h2>Paso 1: Datos Personales</h2>
+                <table>
+                    <tr>
+                        <td><label for="fecha">Fecha:</label></td>
+                        <td><input type="date" id="fecha" name="fecha" value="{{ inscrito.fecha }}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="nombre">Nombre:</label></td>
+                        <td><input type="text" id="nombre" name="nombre" value="{{ inscrito.nombre }}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="apellido">Apellido:</label></td>
+                        <td><input type="text" id="apellido" name="apellido" value="{{ inscrito.apellido }}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label>Turno:</label></td>
+                        <td>
+                            <input type="radio" id="manana" name="turno" value="Mañana" {% if inscrito.turno == 'Mañana' %}checked{% endif %}>Mañana
+                            <input type="radio" id="tarde" name="turno" value="Tarde" {% if inscrito.turno == 'Tarde' %}checked{% endif %}>Tarde
+                            <input type="radio" id="noche" name="turno" value="Noche" {% if inscrito.turno == 'Noche' %}checked{% endif %}>Noche
+                        </td>
+                    </tr>
+                </table><br>
+                
+                <button type="button" onclick="nextStep(1)">Siguiente</button>
+            </div>
+
+            <div id="step2" class="step" style="display: none;">
+                <h2>Paso 2: Seminarios Disponibles</h2>
+                <table>
+                    <tr>
+                        <td><label>Seminarios:</label></td>
+                        <td>
+                            <label><input type="checkbox" name="seminarios" value="IA" {% if 'IA' in inscrito.seminarios %}checked{% endif %}> Inteligencia Artificial</label><br>
+                            <label><input type="checkbox" name="seminarios" value="ML" {% if 'ML' in inscrito.seminarios %}checked{% endif %}> Machine Learning</label><br>
+                            <label><input type="checkbox" name="seminarios" value="SA" {% if 'SA' in inscrito.seminarios %}checked{% endif %}> Simulación con Arena</label><br>
+                            <label><input type="checkbox" name="seminarios" value="RE" {% if 'RE' in inscrito.seminarios %}checked{% endif %}> Robótica Educativa</label>
+                        </td>
+                    </tr>
+                </table><br>                
+                <button type="button" onclick="prevStep(2)">Anterior</button><br>
+                <button type="submit">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

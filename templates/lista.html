@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Inscritos - Seminarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Lista de Inscritos en Seminarios</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Turno</th>
+                    <th>Seminarios</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inscrito in inscritos %}
+                <tr>
+                    <td>{{ inscrito.fecha }}</td>
+                    <td>{{ inscrito.nombre }}</td>
+                    <td>{{ inscrito.apellido }}</td>
+                    <td>{{ inscrito.turno }}</td>
+                    <td>{{ inscrito.seminarios }}</td>
+                    <td>
+                        <div class="botones-acciones">
+                            <form action="{{ url_for('editar', id=inscrito.id) }}" method="GET" style="display:inline;">
+                                <button type="submit">Editar</button>
+                            </form>
+                            <form action="{{ url_for('eliminar', id=inscrito.id) }}" method="POST" style="display:inline;">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+
+    </div>
+    <center>
+    <a href="{{ url_for('index') }}">
+        <button>Volver al Registro</button>
+    </a>
+</center>
+</body>
+</html>
