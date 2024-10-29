@@ -40,10 +40,12 @@ def editar(id):
 
     return render_template('editar.html', inscrito=inscrito)
 
-@app.route('/eliminar/<int:id>', methods=['POST'])
+@app.route('/eliminar/<int:id>', methods=['GET', 'POST'])
 def eliminar(id):
-    global inscritos
-    inscritos = [i for i in inscritos if i['id'] != id]
+    if request.method == 'POST':
+        global inscritos
+        inscritos = [i for i in inscritos if i['id'] != id]
+        return redirect(url_for('lista'))
     return redirect(url_for('lista'))
 
 if __name__ == '__main__':
